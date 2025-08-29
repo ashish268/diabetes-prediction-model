@@ -47,7 +47,7 @@ st.sidebar.write(f"Model Accuracy: **{accuracy:.2f}**")
 # Sidebar for User Input
 # -----------------------------
 st.sidebar.header("Enter Patient Data")
-st.sidebar.image('https://media.gifdb.com/type-2-diabetes-act-for-your-heart-w3eut9y6n6qt4u6f.gif')
+
 
 def user_input():
     pregnancies = st.sidebar.number_input("Pregnancies", 0, 20, 1)
