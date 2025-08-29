@@ -85,6 +85,8 @@ prediction_proba = model.predict_proba(input_df)
 st.subheader("Prediction Result")
 st.write("🟥 Diabetic" if prediction[0] == 1 else "🟩 Not Diabetic")
 
+st.markdown('Designed by:**Ashish Luthra**and**Mishti Sehgal**')
+
 
 
 
