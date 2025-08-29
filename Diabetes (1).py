@@ -1,78 +1,89 @@
 import streamlit as st
 import pandas as pd
-import pickle
-import random
-import time
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 
-# App title
-st.header('🩺 Diabetes Prediction Using Machine Learning')
+# -----------------------------
+# App Title
+# -----------------------------
+st.title("🩺 Diabetes Prediction App")
 
-st.markdown("""
-This app predicts whether a person has **Diabetes** or not based on health parameters.  
-Choose a **machine learning model** and enter feature values to get predictions.
+st.write("""
+This app predicts **whether a patient is diabetic** based on health parameters.  
+The model is trained on the **Pima Indians Diabetes Dataset**.
 """)
 
-st.image('https://cdn-icons-png.flaticon.com/512/616/616408.png', width=150)
+# -----------------------------
+# Load Dataset
+# -----------------------------
+@st.cache_data
+def load_data():
+    df = pd.read_csv("diabetes.csv")  # Upload this dataset to your repo
+    return df
 
-# Sidebar - model selection
-st.sidebar.header('⚙️ Settings')
-model_choice = st.sidebar.selectbox(
-    "Choose a Model",
-    ("Logistic Regression", "Decision Tree", "Random Forest")
-)
+df = load_data()
 
-# Load selected model
-if model_choice == "Logistic Regression":
-    with open("logistic_regression.pkl", "rb") as f:
-        model = pickle.load(f)
-elif model_choice == "Decision Tree":
-    with open("decision_tree.pkl", "rb") as f:
-        model = pickle.load(f)
-else:
-    with open("random_forest.pkl", "rb") as f:
-        model = pickle.load(f)
+# -----------------------------
+# Train Model
+# -----------------------------
+X = df.drop("Outcome", axis=1)
+y = df["Outcome"]
 
-# Load Diabetes dataset (for feature ranges)
-url = "https://raw.githubusercontent.com/plotly/datasets/master/diabetes.csv"
-df = pd.read_csv(url)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-st.sidebar.subheader("Set Feature Values")
+model = DecisionTreeClassifier(random_state=42)
+model.fit(X_train, y_train)
 
-all_values = []
+# Model Accuracy
+accuracy = accuracy_score(y_test, model.predict(X_test))
+st.sidebar.write(f"Model Accuracy: **{accuracy:.2f}**")
 
-# Create sliders for each feature
-for col in df.columns[:-1]:  # exclude "Outcome"
-    min_value, max_value = df[col].agg(['min', 'max'])
-    default_value = random.randint(int(min_value), int(max_value))
-    var = st.sidebar.slider(f"{col}", int(min_value), int(max_value), default_value)
-    all_values.append(var)
+# -----------------------------
+# Sidebar for User Input
+# -----------------------------
+st.sidebar.header("Enter Patient Data")
 
-final_value = [all_values]
+def user_input():
+    pregnancies = st.sidebar.number_input("Pregnancies", 0, 20, 1)
+    glucose = st.sidebar.slider("Glucose", 0, 200, 120)
+    blood_pressure = st.sidebar.slider("Blood Pressure", 0, 140, 70)
+    skin_thickness = st.sidebar.slider("Skin Thickness", 0, 100, 20)
+    insulin = st.sidebar.slider("Insulin", 0, 900, 80)
+    bmi = st.sidebar.slider("BMI", 0.0, 70.0, 25.0)
+    dpf = st.sidebar.slider("Diabetes Pedigree Function", 0.0, 2.5, 0.5)
+    age = st.sidebar.slider("Age", 10, 100, 33)
 
-# Predict
-if st.sidebar.button("🔍 Predict"):
-    ans = model.predict(final_value)[0]
+    data = {
+        "Pregnancies": pregnancies,
+        "Glucose": glucose,
+        "BloodPressure": blood_pressure,
+        "SkinThickness": skin_thickness,
+        "Insulin": insulin,
+        "BMI": bmi,
+        "DiabetesPedigreeFunction": dpf,
+        "Age": age
+    }
+    return pd.DataFrame(data, index=[0])
 
-    progress_bar = st.progress(0)
-    placeholder = st.empty()
-    placeholder.subheader(f'Predicting Diabetes using {model_choice}...') 
+input_df = user_input()
 
-    place = st.empty()
-    place.image('https://media1.tenor.com/m/9bgrt0D6BfIAAAAC/diabetes-blood-sugar.gif', width=200)
+# -----------------------------
+# Prediction
+# -----------------------------
+st.subheader("Patient Data")
+st.write(input_df)
 
-    for i in range(100):
-        time.sleep(0.02)
-        progress_bar.progress(i + 1)
+prediction = model.predict(input_df)
+prediction_proba = model.predict_proba(input_df)
 
-    placeholder.empty()
-    place.empty()
+st.subheader("Prediction Result")
+st.write("🟥 Diabetic" if prediction[0] == 1 else "🟩 Not Diabetic")
 
-    if ans == 0:
-        st.success("✅ No Diabetes Detected")
-    else:
-        st.warning("⚠️ Diabetes Found")
+st.subheader("Prediction Probability")
+st.write(prediction_proba)
 
-st.markdown('Designed by: **Ashish Luthra**')
 
 
 
