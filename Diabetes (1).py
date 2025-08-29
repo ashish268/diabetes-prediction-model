@@ -8,12 +8,15 @@ from sklearn.metrics import accuracy_score
 # -----------------------------
 # App Title
 # -----------------------------
-st.title("🩺 Diabetes Prediction App")
+st.title("🩺 Diabetes Prediction Using Machine Learning ")
 
 st.write("""
 This app predicts **whether a patient is diabetic** based on health parameters.  
 The model is trained on the **Pima Indians Diabetes Dataset**.
+
+ Diabetes Prediction using Machine Learning "Daibetes" prevention is critical, and data-driven prediction systems can significantly aid in early diagnosis and treatment.
 """)
+st.image('https://www.clinicaladvisor.com/wp-content/uploads/sites/11/2020/06/diabetes-care_G_1213259073.jpg')
 
 # -----------------------------
 # Load Dataset
