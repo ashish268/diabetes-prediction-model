@@ -47,7 +47,7 @@ st.sidebar.write(f"Model Accuracy: **{accuracy:.2f}**")
 # Sidebar for User Input
 # -----------------------------
 st.sidebar.header("Enter Patient Data")
-
+st.sidebar.image('https://www.freepik.com/free-photo/diabetic-person-checking-their-glucose-level_65654068.htm#fromView=keyword&page=1&position=1&uuid=f05ecc0f-6251-4635-be52-367d648e9bcc&query=Diabetes+blood')
 
 def user_input():
     pregnancies = st.sidebar.number_input("Pregnancies", 0, 20, 1)
