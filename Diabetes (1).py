@@ -14,7 +14,7 @@ st.write("""
 This app predicts **whether a patient is diabetic** based on health parameters.  
 The model is trained on the **Pima Indians Diabetes Dataset**.
 
- Diabetes Prediction using Machine Learning "Daibetes" prevention is critical, and data-driven prediction systems can significantly aid in early diagnosis and treatment.
+ Diabetes Prediction using Machine Learning "Diabetes" prevention is critical, and data-driven prediction systems can significantly aid in early diagnosis and treatment.
 """)
 st.image('https://www.clinicaladvisor.com/wp-content/uploads/sites/11/2020/06/diabetes-care_G_1213259073.jpg')
 
@@ -47,6 +47,7 @@ st.sidebar.write(f"Model Accuracy: **{accuracy:.2f}**")
 # Sidebar for User Input
 # -----------------------------
 st.sidebar.header("Enter Patient Data")
+st.sidebar.image('https://sdmntprnorthcentralus.oaiusercontent.com/files/00000000-1820-622f-8c28-8cee707c59dc/raw?se=2025-08-29T07%3A54%3A11Z&sp=r&sv=2024-08-04&sr=b&scid=f4706fd9-4f89-5da1-8d60-c6d020cf132d&skoid=bbd22fc4-f881-4ea4-b2f3-c12033cf6a8b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-28T20%3A51%3A38Z&ske=2025-08-29T20%3A51%3A38Z&sks=b&skv=2024-08-04&sig=oKlGNqBSuhWF6e7kFptnUUfgGnXkmYpk0odFl40zfAM%3D')
 
 def user_input():
     pregnancies = st.sidebar.number_input("Pregnancies", 0, 20, 1)
@@ -84,8 +85,7 @@ prediction_proba = model.predict_proba(input_df)
 st.subheader("Prediction Result")
 st.write("🟥 Diabetic" if prediction[0] == 1 else "🟩 Not Diabetic")
 
-st.subheader("Prediction Probability")
-st.write(prediction_proba)
+
 
 
 
