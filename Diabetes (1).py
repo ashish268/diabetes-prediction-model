@@ -81,6 +81,20 @@ st.write(input_df)
 prediction = model.predict(input_df)
 prediction_proba = model.predict_proba(input_df)
 
+import time
+random.seed(132)
+progress_bar = st.progress(0)
+placeholder = st.empty()
+placeholder.subheader('Predicting Heart Disease') 
+
+place = st.empty()
+place.image('https://media1.tenor.com/m/wumcpBfLF4AAAAAC/heartbeat.gif',width = 200)
+
+for i in range(100):
+    time.sleep(0.05)
+    progress_bar.progress(i + 1)
+
+
 st.subheader("Prediction Result")
 st.write("🟥 Diabetic" if prediction[0] == 1 else "🟩 Not Diabetic")
 
