@@ -48,6 +48,7 @@ st.sidebar.write(f"Model Accuracy: **{accuracy:.2f}**")
 # Sidebar for User Input
 # -----------------------------
 st.sidebar.header("Enter Patient Data")
+st.sidebar.image('https://aptivamedical.com/wp-content/uploads/2023/06/Detect-glucose-trends-and-patterns.jpg')
 
 def user_input():
     pregnancies = st.sidebar.number_input("Pregnancies", 0, 20, 1)
@@ -86,7 +87,7 @@ import time
 random.seed(132)
 progress_bar = st.progress(0)
 placeholder = st.empty()
-placeholder.subheader('Predicting Heart Disease') 
+placeholder.subheader('Predicting Diabetes') 
 
 place = st.empty()
 place.image('https://media1.tenor.com/m/wumcpBfLF4AAAAAC/heartbeat.gif',width = 200)
